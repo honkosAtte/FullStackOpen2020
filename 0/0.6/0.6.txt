@@ -1,0 +1,16 @@
+selain->palvelin: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+
+palvelin-->selain: 201: {"message":"note created"}
+
+note over selain:
+Spa.js -tiedostossa on määritelty lomakkeen 
+lähettämisen tapahtumankäsittelijä:
+Ennen kuin mitään lähetetään palvelimelle, 
+lisätään listaan myös uusi "note",
+ja renderöidään käyttöliittymä uudelleen:
+    notes.push(note)
+    e.target.elements[0].value = ""
+    redrawNotes()
+    sendToServer(note)
+end note
+
