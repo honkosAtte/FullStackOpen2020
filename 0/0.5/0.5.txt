@@ -1,0 +1,31 @@
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+palvelin-->selain: 200 (OK), spa (HTML), jossa viittaus main.css ja spa.js 
+
+
+selain->palvelin: HTTP GET  https://studies.cs.helsinki.fi/exampleapp/notes
+palvelin-->selain: HTML notes jossa viittaus palvelimella sijaitseviin spa.js ja main.css-tiedostoihin
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+palvelin-->selain: main.css
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+palvelin-->selain: spa.js
+
+note over selain:
+Selain alkaa suorittaa js-koodia
+joka pyytää JSON-datan palvelimelta
+end note
+
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+palvelin-->selain: [{ content: "Tekstii", date: "2020-10-01" }, ...]
+
+note over selain:
+Selain suorittaa spa.js tiedostossa rekisteröidyn tapahtumankäsittelijän
+joka renderöi muistiinpanot näytölle suoraan domia manipuloimalla
+end note
+selain->palvelin: HTTP GET  https://studies.cs.helsinki.fi/favicon.ico
+palvelin-->selain: favicon.ico
+note over selain:
+Selain käy myös oletusarvoisesti tsekkaamassa palvelimen juurihakemistosta, 
+että löytyykö sieltä favicon.ico. 
+Löytyy ja palauttaa html:ää!
+Tätä ei kuitenkaan renderöidä näytölle.
+end note
