@@ -16,12 +16,21 @@ const App = () => {
     )
   }
 
-  const Content = (props) => {
-    console.log(props.list)
-    return (<>
-      {props.list.map((row) => (
-      <p key={row.part}>{row.part} {row.exercises}</p>))}
-      </>)
+  const Content = ({list}) => {
+    return(
+    <div>
+      <Part item={list[0]}/>
+      <Part item={list[1]}/>
+      <Part item={list[2]}/>
+    </div>
+    )
+  }
+
+  const Part = ({item}) => {
+    console.log(item)
+    return (
+    <p>{item.part} {item.exercises}</p>
+    )
   }
 
   const Total = (props) => {
