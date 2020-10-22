@@ -11,12 +11,12 @@ const Statistics = ({good, neutral, bad, all, average, positive}) => {
     <>
 <h1>stats</h1>
 
-good {good} <br/>
-neutral {neutral} <br/>
-bad {bad} <br/>
-all {all} <br/>
-average {average? average/all : 0} <br/>
-positive {positive? positive/all * 100: 0} %
+<StatisticsLine text="good" value={good} />
+<StatisticsLine text="neutral" value={neutral} />
+<StatisticsLine text="bad" value={bad} />
+<StatisticsLine text="all" value={all} />
+<StatisticsLine text="average" value={average/all} />
+<StatisticsLine text="positive" value={positive/all * 100 + ' %'} />
   
   </>)}
   else 
@@ -24,6 +24,10 @@ positive {positive? positive/all * 100: 0} %
     return (<><h1>stats</h1> No feedback given</>) 
   }
 }
+
+const StatisticsLine = ({text, value}) => <p>{text} {value}</p>
+
+const Button = ({handleClick, text}) => <button onClick={handleClick}>{text}</button>
 
 const App = () => {
   // tallenna napit omaan tilaansa
@@ -54,9 +58,9 @@ setAverage(average-1)
     <div>
       
       <h1>give feedback</h1>
-<button onClick={handleGood}>good</button>
-<button onClick={handleNeutral}>neutral</button>
-<button onClick={handleBad}>bad</button>
+      <Button handleClick={handleGood} text='good'/>
+      <Button handleClick={handleNeutral} text='neutral'/>
+      <Button handleClick={handleBad} text='bad'/>
 
 <Statistics good={good} neutral={neutral} bad={bad} all={all} positive={positive} average={average}/>
     </div>
