@@ -3,20 +3,22 @@ import ReactDOM from 'react-dom'
 
 
 const Statistics = ({good, neutral, bad, all, average, positive}) => {
-  const hasValue = good !== 0 && neutral !== 0 && bad !==0;
- console.log(hasValue)
 
  if (good | neutral | bad){
   return (
     <>
 <h1>stats</h1>
-
+<table>
+  <tbody>
 <StatisticsLine text="good" value={good} />
 <StatisticsLine text="neutral" value={neutral} />
 <StatisticsLine text="bad" value={bad} />
 <StatisticsLine text="all" value={all} />
 <StatisticsLine text="average" value={average/all} />
 <StatisticsLine text="positive" value={positive/all * 100 + ' %'} />
+</tbody>
+</table>
+
   
   </>)}
   else 
@@ -25,7 +27,7 @@ const Statistics = ({good, neutral, bad, all, average, positive}) => {
   }
 }
 
-const StatisticsLine = ({text, value}) => <p>{text} {value}</p>
+const StatisticsLine = ({text, value}) => <tr><td>{text}</td><td>{value}</td></tr>
 
 const Button = ({handleClick, text}) => <button onClick={handleClick}>{text}</button>
 
