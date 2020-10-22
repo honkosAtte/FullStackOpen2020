@@ -8,13 +8,30 @@ const RandomGenerator = () => Math.floor(Math.random() * 6);
 
 const App = (props) => {
   const [selected, setSelected] = useState(0)
-  const testo = RandomGenerator();
+  const [points, setPoints] = useState([0, 0, 0, 0, 0, 0])
+
+
+  const handleClick = () => {
+    const index = RandomGenerator()
+    setSelected(index)
+  }
+
+  const handleVote = () => {
+    const copy = [...points]
+    copy[selected] += 1
+    setPoints(copy)
+  }
+
+
   return (
     <div>
   
       {props.anecdotes[selected]}
       <br/>
-      <button onClick={() => setSelected(RandomGenerator())}>next anecdote</button>
+      <p>has {points[selected]} points</p>
+      <button onClick={handleClick}>next anecdote</button>
+      <button onClick={handleVote}>vote this anecdote</button>
+
 
     </div>
   )
