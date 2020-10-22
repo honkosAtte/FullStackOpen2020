@@ -10,7 +10,6 @@ const App = (props) => {
   const [selected, setSelected] = useState(0)
   const [points, setPoints] = useState([0, 0, 0, 0, 0, 0])
 
-
   const handleClick = () => {
     const index = RandomGenerator()
     setSelected(index)
@@ -22,15 +21,20 @@ const App = (props) => {
     setPoints(copy)
   }
 
+  const indexOfTheHighestVoted = points.indexOf(Math.max(...points))
+
 
   return (
     <div>
-  
+    <h1>Anecdote of the day</h1>
       {props.anecdotes[selected]}
       <br/>
       <p>has {points[selected]} points</p>
       <button onClick={handleClick}>next anecdote</button>
       <button onClick={handleVote}>vote this anecdote</button>
+     
+     <h1>Anecdote with most votes</h1>
+     {props.anecdotes[indexOfTheHighestVoted]}
 
 
     </div>
