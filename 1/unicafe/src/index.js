@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom'
 
 
 const Statistics = ({good, neutral, bad, all, average, positive}) => {
+  const hasValue = good !== 0 && neutral !== 0 && bad !==0;
+ console.log(hasValue)
+
+ if (good | neutral | bad){
   return (
     <>
 <h1>stats</h1>
@@ -14,7 +18,11 @@ all {all} <br/>
 average {average? average/all : 0} <br/>
 positive {positive? positive/all * 100: 0} %
   
-  </>)
+  </>)}
+  else 
+  {
+    return (<><h1>stats</h1> No feedback given</>) 
+  }
 }
 
 const App = () => {
