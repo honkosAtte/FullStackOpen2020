@@ -5,7 +5,7 @@ const Course = ({courses}) => {
 
   return (
     <div>
-     {courses.map(course => <Content course={course}/>)} 
+     {courses.map(course => <Content key={course.name.toString()} course={course}/>)} 
     </div>
   )
 }
