@@ -1,7 +1,7 @@
 import React from 'react';
 import Content from './Content'
 
-const Courses = ({courses}) => {
+const Course = ({courses}) => {
 
   return (
     <div>
@@ -12,7 +12,7 @@ const Courses = ({courses}) => {
 
 
 
-export default Courses;
+export default Course;
 
 
 
