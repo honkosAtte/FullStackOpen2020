@@ -1,6 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 
+const OneItemButton = ({stateOfTheRow, setOneState}) => (
+  <button onClick={() => setOneState( {
+    name: stateOfTheRow.name,
+    capital: stateOfTheRow.capital,
+    population: stateOfTheRow.population,
+    languages: stateOfTheRow.languages.map(lang => lang.name),
+    imageUrl: stateOfTheRow.flag
+    })
+    
+  }>Show details</button>
+)
 
 const OneItem = ({oneState}) => (
 <>
@@ -69,16 +80,18 @@ const [oneState, setOneState] = useState({ name: '',
 
   return (
     <div>
-      <input value={filterInputState} onChange={handleInputChange}/>
+      <input placeholder='search' value={filterInputState} onChange={handleInputChange}/>
       <br/>
    {/* <ul>{states.map((row) => <p key={row.name}>{row.name}</p>)}</ul> */}
 {filterInputState.length > 0 
 && filteredStates.length > 1 
 && filteredStates.length < 11 ? 
-filteredStates.map((row) => <p key={row.name}>{row.name}</p>) : <p/>}
+filteredStates.map((row) => <> <li key={row.name}>{row.name} <OneItemButton stateOfTheRow={row} setOneState={setOneState}/></li> </>) : <p/>}
 {filterInputState.length > 0 && filteredStates.length > 10 ? 'Too many matches, please specify': <p></p>}
 
 {oneState.name !== '' ? <OneItem oneState={oneState}/> : <p></p>}
+
+
 
     </div>
   )
