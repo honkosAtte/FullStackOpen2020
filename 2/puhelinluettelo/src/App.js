@@ -4,7 +4,7 @@ import axios from 'axios'
 import Filter from './components/Filter'
 import Persons from './components/Persons'
 import ContactForm from './components/ContactForm'
-
+import phonebookService from './services/phonebookService'
 
 const App = () => {
   const [ persons, setPersons] = useState([]) 
@@ -14,12 +14,12 @@ const App = () => {
   const [ filteredPersons, setFilteredPersons] = useState([{}])
 
 useEffect(() => {
-  axios.get('http://localhost:3001/persons')
-  .then(
-    response => {
-      console.log(response.data)
-      setPersons(response.data)}  
-  )
+
+  phonebookService.getAll()
+  .then(response => {
+    setPersons(response)
+  })
+
 }, [])
 
 
@@ -32,19 +32,36 @@ useEffect(() => {
       alert(`${newName} is already added to numberbook`);
       e.preventDefault();
       setNewName('');
+      setNewnumber('')
     return;
     }
     e.preventDefault();
     const nameObject = {name : newName, number : newnumber};
-    setPersons(persons.concat(nameObject)); 
-    setNewName('')
-    setNewnumber('')
+
+    
+    phonebookService.create(nameObject)
+    .then(returnedObject => {
+      setPersons(persons.concat(returnedObject));
+      setNewName('')
+      setNewnumber('')
+    });
+   
   }
 
 
 
   const handleChange = (e) => {setNewName(e.target.value)}
   const handlenumberChange = (e) => {setNewnumber(e.target.value)}
+
+
+  const handleDelete = (id) => {
+    console.log('delete this' + id)
+    phonebookService.deleteItem(id)
+      .then(confirm => {
+        console.log('confirmDelete', confirm)
+        setPersons([...persons].filter(person => person.id !== id))
+      })
+  }
 
   const handleFiltering = (e) => {
     setFilteredResults(e.target.value)
@@ -59,7 +76,7 @@ useEffect(() => {
       <Filter filteredResults={filteredResults} handleFiltering={handleFiltering} />
       <ContactForm handleSubmit={handleSubmit} newName={newName} handleChange={handleChange} newnumber={newnumber} handlenumberChange={handlenumberChange}/>
       <h2>Numbers</h2>
-      <Persons filteredResults={filteredResults} filteredPersons={filteredPersons} persons={persons}/>
+      <Persons filteredResults={filteredResults} filteredPersons={filteredPersons} persons={persons} handleDelete={handleDelete}/>
     </div>
   )
 

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ContactForm = ({handleSubmit, newName, handleChange, newPhone, handlePhoneChange}) => {
+const ContactForm = ({handleSubmit, newName, handleChange, newnumber, handlenumberChange}) => {
 
   return (
     <form onSubmit={handleSubmit}>
@@ -8,7 +8,7 @@ const ContactForm = ({handleSubmit, newName, handleChange, newPhone, handlePhone
       name: <input value={newName} onChange={handleChange}/>
     </div>
     <div>
-      phone: <input value={newPhone} onChange={handlePhoneChange}/>
+      phone: <input value={newnumber} onChange={handlenumberChange}/>
     </div>
     <div>
       <button type="submit">add</button>
