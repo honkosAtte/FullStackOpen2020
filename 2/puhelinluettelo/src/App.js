@@ -3,6 +3,9 @@ import Filter from './components/Filter'
 import Persons from './components/Persons'
 import ContactForm from './components/ContactForm'
 import phonebookService from './services/phonebookService'
+import './App.css'
+
+
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -10,7 +13,9 @@ const App = () => {
   const [newnumber, setNewnumber] = useState('')
   const [filteredResults, setFilteredResults] = useState('')
   const [filteredPersons, setFilteredPersons] = useState([{}])
+  const [message, setMessage] = useState('')
 
+  
   useEffect(() => {
 
     phonebookService.getAll()
@@ -21,6 +26,16 @@ const App = () => {
   }, [])
 
 
+
+  const BetterSucceedMessage = ({ message }) => {
+    if (message === '') { return (<p></p>) }
+    // Onhän tää vähän nolo, mutta toimii:
+    if (message.includes('already')) { return (<p class='error'>{message}</p>) }
+
+    return (<p class='success'>{message}</p>)
+
+
+  }
 
   const handleSubmit = (e) => {
     const nameIsAlreadyInThenumberBook = persons.map(person => person.name === newName).some(bool => bool)
@@ -37,6 +52,12 @@ const App = () => {
             setPersons(persons.map(person => person.id !== idOfUpdateObject ? person : returnedObject));
             setNewName('')
             setNewnumber('')
+            setMessage(`${updateNameObject.name}'s phonenumber now successfully updated`)
+          setTimeout(() => setMessage(''), 3000)
+          }).catch(error => {
+            setMessage(`${updateNameObject.name} was already deleted from server`)
+            setTimeout(() => setMessage(''), 3000)
+            setPersons(persons.filter(person => person.id !== idOfUpdateObject))
           });
 
       }
@@ -54,6 +75,8 @@ const App = () => {
         setPersons(persons.concat(returnedObject));
         setNewName('')
         setNewnumber('')
+        setMessage(`${nameObject.name} is now successfully added to phonebook`)
+        setTimeout(() => setMessage(''), 3000)
       });
 
   }
@@ -66,14 +89,16 @@ const App = () => {
 
   const handleDelete = (id) => {
     console.log('delete this' + id)
+    console.log('name', persons.find(row => row.id === id).name)
     phonebookService.deleteItem(id)
       .then(confirm => {
         console.log('confirmDelete', confirm)
         setPersons(persons.filter(person => person.id !== id))
+        setMessage(`${persons.find(row => row.id === id).name} is now successfully deleted`)
+        setTimeout(() => setMessage(''), 3000)
       }).catch(error => {
-        alert(
-          `the person with id ${id} was already deleted from server`
-        )
+        setMessage(`${persons.find(row => row.id === id).name} was already deleted from server`)
+        setTimeout(() => setMessage(''), 3000)
         setPersons(persons.filter(person => person.id !== id))
       })
   }
@@ -88,6 +113,7 @@ const App = () => {
   return (
     <div>
       <h2>numberbook</h2>
+      <BetterSucceedMessage message={message} />
       <Filter filteredResults={filteredResults} handleFiltering={handleFiltering} />
       <ContactForm handleSubmit={handleSubmit} newName={newName} handleChange={handleChange} newnumber={newnumber} handlenumberChange={handlenumberChange} />
       <h2>Numbers</h2>
