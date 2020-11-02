@@ -38,6 +38,13 @@ const App = () => {
   }
 
   const handleSubmit = (e) => {
+	const test = [] 
+	
+	phonebookService.getAll()
+      .then(response => {
+		console.log(test)
+		//Tämä jäi vielä kesken, pitänee käyttä jotain hookia?
+      })
     const nameIsAlreadyInThenumberBook = persons.map(person => person.name === newName).some(bool => bool)
 
     if (nameIsAlreadyInThenumberBook) {
@@ -88,13 +95,13 @@ const App = () => {
 
 
   const handleDelete = (id) => {
-    console.log('delete this' + id)
-    console.log('name', persons.find(row => row.id === id).name)
+    //console.log('delete this' + id)
+    //console.log('name', persons.find(row => row.id === id).name)
     phonebookService.deleteItem(id)
-      .then(confirm => {
-        console.log('confirmDelete', confirm)
-        setPersons(persons.filter(person => person.id !== id))
+      .then(response => {
+        console.log('Errors? ', response.error !== undefined)
         setMessage(`${persons.find(row => row.id === id).name} is now successfully deleted`)
+		setPersons(persons.filter(person => person.id !== id))
         setTimeout(() => setMessage(''), 3000)
       }).catch(error => {
         setMessage(`${persons.find(row => row.id === id).name} was already deleted from server`)
